@@ -1,5 +1,5 @@
 # lss: 
-list **size** of file/**folder** in the current working directory,
+list **folder size** / file size in the current working directory,
 while operating system can not provide folder size
 
 features:
