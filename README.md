@@ -12,4 +12,6 @@ add lss.exe folder to envrionment $PATH
 lss
 ```
 
+## demo
+![](dist/demo.png)
 
