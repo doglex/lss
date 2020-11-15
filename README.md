@@ -2,8 +2,10 @@
 list **size** of file/**folder** in the current working directory,
 while operating system can not provide folder size
 
+features:
++ high performance using goroutine
 + sort from big to small 
-+ also list count of files 
++ list count of items concurrently
 + auto skip permission errors
 
 
