@@ -1,6 +1,11 @@
 # lss: 
 list size of file/folder in the current working directory,
 while operating system can not provide folder size
+
++ sort from big to small 
++ also list count of files 
+
+
 ## how to test
 ```
 go run main.go
