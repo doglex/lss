@@ -24,7 +24,7 @@ func DirSize(path string) (size int64, num int64, err error) {
 	return
 }
 
-func ListDir(folder string) {
+func ListDir(folder string, noPath bool) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	t.AppendHeader(table.Row{"#", "Type", "Name", "Size(human)", "Size(B)", "Items", "Path"})
@@ -53,7 +53,11 @@ func ListDir(folder string) {
 		totalSize += size
 		//fmt.Println(size, num, err)
 		//fmt.Println(file.Name(),file.Size(), strAbsPath,)
-		t.AppendRow([]interface{}{idx, fileType, file.Name(), humanize.Bytes(uint64(size)), size, num, strAbsPath})
+		if noPath {
+			t.AppendRow([]interface{}{idx, fileType, file.Name(), humanize.Bytes(uint64(size)), size, num})
+		} else {
+			t.AppendRow([]interface{}{idx, fileType, file.Name(), humanize.Bytes(uint64(size)), size, num, strAbsPath})
+		}
 	}
 	t.SortBy([]table.SortBy{{Name: "Size(B)", Mode: table.DscNumeric}})
 	t.AppendFooter(table.Row{"$", "", "Total", humanize.Bytes(uint64(totalSize)), totalSize, totalNum})
@@ -62,10 +66,15 @@ func ListDir(folder string) {
 }
 
 func main() {
+	noPath := false
+	if len(os.Args) > 1 && os.Args[1] == "-s" { // provide noPath
+		fmt.Println(len(os.Args))
+		noPath = true
+	}
 	cwd, err := os.Getwd()
 	if err != nil {
 		log.Fatalln("Error", "cannot get cwd")
 	}
 	fmt.Println("CWD:", cwd)
-	ListDir(cwd)
+	ListDir(cwd, noPath)
 }
