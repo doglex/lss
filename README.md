@@ -4,6 +4,7 @@ while operating system can not provide folder size
 
 + sort from big to small 
 + also list count of files 
++ auto skip permission errors
 
 
 ## how to test
