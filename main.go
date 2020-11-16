@@ -13,7 +13,6 @@ import (
 
 var Folder string = ""
 var T = table.NewWriter()
-var NoPathDisplay = false
 var mutex sync.Mutex
 var totalNum int64 = 0
 var totalSize int64 = 0
@@ -60,18 +59,15 @@ func GetSize(idx int, file os.FileInfo, waitGroup *sync.WaitGroup) {
 	mutex.Lock()
 	totalNum += f.Num
 	totalSize += f.Size
-	if NoPathDisplay {
-		T.AppendRow([]interface{}{idx, f.FileType, f.File.Name(), humanize.Bytes(uint64(f.Size)), f.Size, f.Num})
-	} else {
-		T.AppendRow([]interface{}{idx, f.FileType, f.File.Name(), humanize.Bytes(uint64(f.Size)), f.Size, f.Num, f.StrPath})
-	}
+
+	T.AppendRow([]interface{}{idx, f.FileType, f.File.Name(), humanize.Bytes(uint64(f.Size)), f.Size, f.Num})
 	mutex.Unlock()
 }
 
 func ListDir(folder string) {
 	Folder = folder
 	T.SetOutputMirror(os.Stdout)
-	T.AppendHeader(table.Row{"#", "Type", "Name", "Size(human)", "Size(B)", "Items", "Path"})
+	T.AppendHeader(table.Row{"#", "Type", "Name", "Size(human)", "Size(B)", "Items"})
 
 	files, errDir := ioutil.ReadDir(Folder)
 	if errDir != nil {
@@ -90,9 +86,6 @@ func ListDir(folder string) {
 }
 
 func main() {
-	if len(os.Args) > 1 && os.Args[1] == "-s" { // provide noPath
-		NoPathDisplay = true
-	}
 	cwd, err := os.Getwd()
 	if err != nil {
 		log.Fatalln("Error", "cannot get cwd")

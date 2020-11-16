@@ -20,8 +20,7 @@ go build -ldflags "-w"
 # for linux
 env GOOS=linux GOARCH=amd64 go build -ldflags "-w"
 add lss.exe folder to envrionment $PATH 
-lss # display with path
-lss -s # display without path
+lss 
 ```
 
 ## demo
